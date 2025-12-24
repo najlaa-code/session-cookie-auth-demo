@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 2</title>
+    <style>
+        form {
+            background-color: rgb(255, 255, 255);
+            align-items: center;
+        }
+        label {
+            font-size: 17px;
+            margin: 5px;
+            font-weight: bold;
+        }
+        input {
+            margin: 5px;
+            margin-bottom: 20px;
+            padding: 1px;
+        }
+        button {
+            height: 1cm;
+            width: 5cm;
+            font-size: 20px;
+            font-weight: bold;
+            color: rgb(0, 0, 0);
+            background-color: rgb(0, 206, 0);
+            border-radius: 5px;
+            border-color:rgb(0, 206, 0);
+        }
+    </style>
+    <script>
+        function validatePassword(){
+            var input = document.getElementById("password").value;
+                if (input.length < 9) {
+                    alert("The password you entered is not long enough. It must be at least 9 characters.");
+                } else {
+                    if (!hasLowerCase(input)) {
+                        alert("Your password needs at least one lower case letter.");
+                        return false;
+                    }
+                    if (!hasUpperCase(input)) {
+                        alert("Your password needs at least one upper case letter.");
+                        return false;
+                    }
+                    if (!hasNumeric(input)) {
+                        alert("Your password needs at least one number.");
+                        return false;
+                    }
+                    if (!hasSpecialCharacter(input)) {
+                        alert("Your password needs at least one special character.");
+                        return false;
+                    }
+                }
+                return true;
+            }
+        
+                function hasLowerCase(input){
+                    var lowerCase = false;
+                    for (let i=0;i<input.length;i++){
+                        if (input.charCodeAt(i) >= 97 && input.charCodeAt(i) <= 122){
+                            lowerCase = true;
+                        }
+                    }
+                    if (lowerCase) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+                function hasUpperCase(input){
+                    var upperCase = false;
+                    for (let i=0;i<input.length;i++){
+                        if (input.charCodeAt(i) >= 65 && input.charCodeAt(i) <= 90){
+                            upperCase = true;
+                        }
+                    }
+                    if (upperCase) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+                function hasNumeric(input){
+                    var numeric = false;
+                    for (let i=0;i<input.length;i++){
+                        if (input.charCodeAt(i) >= 48 && input.charCodeAt(i) <= 57){
+                            numeric = true;
+                        }
+                    }
+                    if (numeric) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+                function hasSpecialCharacter(input){
+                    var specialChar = false;
+                    for (let i=0;i<input.length;i++){
+                        if ((input.charCodeAt(i) >= 33 && input.charCodeAt(i) <= 47)
+                        || (input.charCodeAt(i) >= 58 && input.charCodeAt(i) <= 64)
+                        || (input.charCodeAt(i) >= 91 && input.charCodeAt(i) <= 96)
+                        || (input.charCodeAt(i) >= 123 && input.charCodeAt(i) <= 126))
+                        {
+                            return true;
+                        } 
+                    }
+                    return false;
+                }
+        function validateRepeatPassword() {
+            let repeatPassword = document.getElementById("repeatPassword").value;
+            let password = document.getElementById("password").value;
+                 if (repeatPassword == password) {
+                return true;
+            } else {
+                alert("The passwords do not match");
+                return false;
+            }
+        }
+        function emailValidation() {
+            var email = document.getElementById("email").value;
+            // at least one @ symbol, one . after @, one . before @
+            var validEmail = false;
+            var atPos = email.indexOf("@");
+            var dotPos = email.lastIndexOf(".");
+            // check if there is at least one character before @
+            if (atPos > 0 &&
+                dotPos > atPos + 1 &&
+                dotPos < email.length - 1
+            ) {
+                validEmail = true;
+            }
+            if (validEmail) {
+                return true;
+            } else {
+                alert("Email is in an invalid format. Valid format: example@domain.com");
+                return false;
+            }
+        }
+
+        function phoneNumberValidation(){
+            var phoneNumber = document.getElementById("phoneNumber").value;
+                // 2 cases: 1. the first char is (. 2. the first char is a number
+                if (phoneNumber[0] === "(") {
+                    if (phoneNumber.length != 14) {
+                       alert("Invalid phone number.Phone number must match one of the following formats: 1) 123-456-7890 2) (123) 456-7890 3) 123 456 7890");
+                        return false; 
+                    } else {
+                        // check char at 5 for a space, char at 9 for a -
+                         if (phoneNumber.length !== 14 ||
+                            phoneNumber[4] !== ")" ||
+                            phoneNumber[5] !== " " ||
+                            phoneNumber[9] !== "-") {
+                            alert("Invalid phone number.Phone number must match one of the following formats: 1) 123-456-7890 2) (123) 456-7890 3) 123 456 7890");
+                            return false;
+                        }
+                         // check that every char except 0, 4, 5, 9 are numbers
+                        for (let i = 1; i <= 3; i++) {
+                            if (isNaN(phoneNumber[i])) return false;
+                        }
+                        for (let i = 6; i <= 8; i++) {
+                            if (isNaN(phoneNumber[i])) return false;
+                        }
+                        for (let i = 10; i <= 13; i++) {
+                            if (isNaN(phoneNumber[i])) return false;
+                        }
+                        return true;
+                    }
+                } else if (phoneNumber.charCodeAt(0) >= 48 &&
+                            phoneNumber.charCodeAt(0) <= 57) {
+                                // check length
+                                // check that every char except 4 and 8 are numbers
+                        // 2 cases, char at 4 is either a space or a -
+                        // if a space, char at 8 needs to be a space too
+                        // if a -, char at 8 needs to be a - too
+                         if (phoneNumber.length !== 12) {
+            alert("Invalid phone number.Phone number must match one of the following formats: 1) 123-456-7890 2) (123) 456-7890 3) 123 456 7890");
+            return false;
+        }
+
+        let sep1 = phoneNumber[3];
+        let sep2 = phoneNumber[7];
+
+        if (!((sep1 === "-" && sep2 === "-") || (sep1 === " " && sep2 === " "))) {
+            alert("Invalid phone number. Phone number must match one of the following formats: 1) 123-456-7890 2) (123) 456-7890 3) 123 456 7890");
+            return false;
+        }
+        for (let i = 0; i < phoneNumber.length; i++) {
+            if (i === 3 || i === 7) continue;
+            if (isNaN(phoneNumber[i])) {
+                alert("Invalid phone number. Phone number must match one of the following formats: 1) 123-456-7890 2) (123) 456-7890 3) 123 456 7890");
+                return false;
+            }
+        }
+        return true;
+                } else {
+                    alert("Invalid phone number. Phone number must match one of the following formats: 1) 123-456-7890 2) (123) 456-7890 3) 123 456 7890");
+                    return false;
+                }
+            }    
+        function validateForm(event) {
+            if (!validatePassword() || !validateRepeatPassword() || !emailValidation() || !phoneNumberValidation()) {
+                event.preventDefault(); 
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Task 2</h1>
+    <form action="/setSession" method="POST" onsubmit="validateForm(event)">
+    <label>
+     Enter your password: 
+    <input type="password" id="password" name="password"/>
+    </label>
+    <br>
+    <label>
+        Repeat the password:
+        <input type="password" id="repeatPassword" name="repeatPassword"/>
+    </label>
+    <br>
+    <label>
+        Email address:
+        <input type="email" id="email" name="email"/>
+    </label>
+    <br>
+    <label>
+        Phone Number:
+        <input type="text" id="phoneNumber" name="phoneNumber"/>
+    </label>
+    <br>
+    <button type="submit" onclick="return validatePassword() && validateRepeatPassword() && emailValidation() && phoneNumberValidation()">Submit</button>
+
+</form>
+</body>
+</html>
